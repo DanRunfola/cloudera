@@ -10,7 +10,7 @@
 
 env=geomesa
 py="3.7.7"
-run="./main.py"
+run="/home/dsmillerrunfol@campus.wm.edu/cloudera/main.py"
 
 # WM username (without the @CAMPUS.WM.EDU part)
 wmuser=dsmillerrunfol
