@@ -150,4 +150,9 @@ wget https://www.geoboundaries.org/data/geoBoundaries-3_0_0/AFG/ADM1/geoBoundari
 
 ./bin/geomesa-accumulo ingest help
 
-#Into pyspark.
+#Setup conda environment however you want on a node that can submit
+#Make sure to include python-hdfs
+#Create your submit.sh file for it
+cd ${conda_dir}/anaconda3/envs
+zip -r ${wd}/${env}.zip ${env}
+cd ${wd}
