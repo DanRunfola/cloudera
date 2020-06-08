@@ -8,8 +8,10 @@ spark = (SparkSession.builder
 sc = spark.sparkContext
 def testx(x):
     #import pytz
-    import pandas as pd
-    
+    try:
+        import pandas as pd
+    except:
+        x = "Imports failed."
     return(x)
 
 def geoLog(message):
