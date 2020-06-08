@@ -158,3 +158,37 @@ wget https://www.geoboundaries.org/data/geoBoundaries-3_0_0/AFG/ADM1/geoBoundari
 
 #cd into your environmental folder of anaconda and run the above gen script
 
+
+#python
+import geomesa_pyspark
+conf = geomesa_pyspark.configure(
+         jars=['/home/dsmillerrunfol@campus.wm.edu/geomesa-accumulo-spark-runtime_2.11-2.3.1.jar'],
+         packages=['geomesa_pyspark','pytz'],
+         spark_home='/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/lib/spark').\
+       setAppName('DanTest')
+conf.get('spark.master')
+# u'yarn'
+from pyspark.sql import SparkSession
+spark = ( SparkSession
+    .builder
+    .config(conf=conf)
+    .enableHiveSupport()
+    .getOrCreate() )
+params = {
+    "accumulo.instance.id":    "accumulo",
+    "accumulo.zookeepers":     "m1a.geo.sciclone.wm.edu:2181,m1b.geo.sciclone.wm.edu:2181,m2.geo.sciclone.wm.edu:2181",
+    "accumulo.user":           "dsmillerrunfol",
+    "accumulo.password":       "geomesa",
+    "accumulo.catalog":        "gB.hp"
+}
+feature = "adm"
+df = ( spark
+    .read
+    .format("geomesa")
+    .options(**params)
+    .option("geomesa.feature", feature)
+    .load() )
+df.createOrReplaceTempView("adm")
+spark.sql("show tables").show()
+
+spark.sql("""select * from tbl""").show()

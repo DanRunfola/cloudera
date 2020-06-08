@@ -92,9 +92,6 @@ cat << EOF > ps-${env}
 pyspark \
 --driver-memory=100g \
 --conf spark.rpc.message.maxSize=2047 \
---conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
---conf spark.kryo.registrator=org.locationtech.rasterframes.util.RFKryoRegistrator \
---conf spark.kryoserializer.buffer.max=500m \
 --conf spark.pyspark.driver.python=${conda_dir}/anaconda3/envs/${env}/bin/python \
 --conf spark.pyspark.python=./ENV/${env}/bin/python \
 --archives ${wd}/${env}.zip#ENV,/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/lib/spark/python/lib/py4j-0.10.7-src.zip,${wd}/geomesa_pyspark-2.4.0.tar.gz \
