@@ -1,4 +1,4 @@
-EXPORT env="geomesa"
+export env="geomesa"
 cd /home/dsmillerrunfol@campus.wm.edu/anaconda3/envs/
 zip -r /home/dsmillerrunfol@campus.wm.edu/cloudera/geomesa.zip geomesa 
 cd /home/dsmillerrunfol@campus.wm.edu/cloudera/
