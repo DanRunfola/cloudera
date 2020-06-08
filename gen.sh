@@ -98,7 +98,7 @@ fi
 
 # pip requirements
 if [[ -f pip-requirements.txt ]];then
-    pip install -r pip-requirements.txt
+    pip3 install -r pip-requirements.txt
 else
     echo "No pip-requirements.txt file found"
 fi
@@ -107,7 +107,8 @@ fi
 
 # pip custom install (uncomment to use)
 # ==========
-pip install --no-dependencies pytz 
+#pip install --no-dependencies pytz 
+pip3 install /home/dsmillerrunfol@campus.wm.edu/cloudera/geomesa_pyspark-2.4.0.tar.gz
 # ==========
 
 
@@ -134,7 +135,7 @@ spark-submit \
 --conf spark.pyspark.driver.python=${conda_dir}/anaconda3/envs/${env}/bin/python \
 --conf spark.pyspark.python=./ENV/${env}/bin/python \
 --archives ${wd}/${env}.zip#ENV,/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/lib/spark/python/lib/py4j-0.10.7-src.zip \
---jars ${jar_path},/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/httpclient-4.5.3.jar,/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/commons-httpclient-3.1.jar \
+--jars ${jar_path},/home/dsmillerrunfol@campus.wm.edu/cloudera/geomesa-accumulo-spark-runtime_2.11-2.4.0.jar,/home/dsmillerrunfol@campus.wm.edu/cloudera/geomesa-spark-converter_2.11-2.4.0.jar/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/httpclient-4.5.3.jar,/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/commons-httpclient-3.1.jar \
 ${run}
 EOF
 
@@ -145,6 +146,6 @@ pyspark \
 --conf spark.pyspark.driver.python=${conda_dir}/anaconda3/envs/${env}/bin/python \
 --conf spark.pyspark.python=./ENV/${env}/bin/python \
 --archives ${wd}/${env}.zip#ENV,/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/lib/spark/python/lib/py4j-0.10.7-src.zip \
---jars ${jar_path},/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/httpclient-4.5.3.jar,/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/commons-httpclient-3.1.jar
+--jars ${jar_path},/home/dsmillerrunfol@campus.wm.edu/cloudera/geomesa-accumulo-spark-runtime_2.11-2.4.0.jar,/home/dsmillerrunfol@campus.wm.edu/cloudera/geomesa-spark-converter_2.11-2.4.0.jar/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/httpclient-4.5.3.jar,/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/commons-httpclient-3.1.jar \
 EOF
 
