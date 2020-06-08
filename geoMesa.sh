@@ -144,3 +144,10 @@ hdfs dfs -copyFromLocal /home/dsmillerrunfol@campus.wm.edu/cloudera/libs/geomesa
 ./bin/geomesa-accumulo create-schema -u dsmillerrunfol --catalog gB.hp --feature-name adm --spec geoboundary-adm
 
 #Ingest a boundary
+wget https://www.geoboundaries.org/data/geoBoundaries-3_0_0/AFG/ADM1/geoBoundaries-3_0_0-AFG-ADM1.geojson
+
+./bin/geomesa-accumulo ingest -u dsmillerrunfol --catalog gB.hp --feature-name adm --converter geoboundary-adm-collection-geojson --spec geoboundary-adm /home/dsmillerrunfol@campus.wm.edu/cloudera/geoBoundaries-3_0_0-AFG-ADM1.geojson 
+
+./bin/geomesa-accumulo ingest help
+
+#Into pyspark.
