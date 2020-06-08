@@ -1,3 +1,4 @@
+$env = geomesa
 cd /home/dsmillerrunfol@campus.wm.edu/anaconda3/envs/
 zip -r /home/dsmillerrunfol@campus.wm.edu/cloudera/geomesa.zip geomesa 
 cd /home/dsmillerrunfol@campus.wm.edu/cloudera/
@@ -38,7 +39,6 @@ EOF
 echo "----------------------------------------"
 echo "Building Pyspark environment tests"
 
-mkdir tests
 
 cat << EOF > tests/test-${env}
 spark-submit \
