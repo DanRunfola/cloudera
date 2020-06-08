@@ -191,4 +191,6 @@ df = ( spark
 df.createOrReplaceTempView("adm")
 spark.sql("show tables").show()
 
-spark.sql("""select * from tbl""").show()
+spark.sql("""select * from adm""").show()
+
+spark.sql("""select * from adm where st_contains(st_makeBBOX(-180.0, -90.0, 166.9315, 0.5228), geometry)""").show()
