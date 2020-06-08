@@ -24,6 +24,7 @@ conda_dir=${HOME}
 # ==========
 
 wd=$(pwd)
+mkdir tests
 
 
 if [[ $(basename $(pwd)) != ${env} ]]; then
@@ -36,9 +37,9 @@ fi
 # ${HOME}/.bash_profile file (bash_profile is run on login, bashrc is not)
 
 # init conda
-${conda_dir}/anaconda3/bin/conda init
+#${conda_dir}/anaconda3/bin/conda init
 # enable path to conda install set by init
-source ${HOME}/.bashrc
+#source ${HOME}/.bashrc
 
 # make sure no env is active
 conda deactivate
@@ -102,9 +103,11 @@ else
     echo "No pip-requirements.txt file found"
 fi
 
+
+
 # pip custom install (uncomment to use)
 # ==========
-# pip install ...
+pip install --no-dependencies pytz 
 # ==========
 
 
@@ -145,71 +148,3 @@ pyspark \
 --jars ${jar_path},/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/httpclient-4.5.3.jar,/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/commons-httpclient-3.1.jar
 EOF
 
-# -------------------------------------
-# -------------------------------------
-# -------------------------------------
-# BUILD TEST CODE
-# -------------------------------------
-# -------------------------------------
-# -------------------------------------
-
-
-echo "----------------------------------------"
-echo "Building Pyspark environment tests"
-
-cat << EOF > tests/test-${env}
-spark-submit \
---deploy-mode cluster \
---conf spark.pyspark.driver.python=${conda_dir}/anaconda3/envs/${env}/bin/python \
---conf spark.pyspark.python=./ENV/${env}/bin/python \
---archives ${wd}/${env}.zip#ENV,/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/lib/spark/python/lib/py4j-0.10.7-src.zip \
---jars ${jar_path},/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/httpclient-4.5.3.jar,/opt/cloudera/parcels/CDH-6.2.0-1.cdh6.2.0.p0.967373/jars/commons-httpclient-3.1.jar \
-${wd}/tests/test-${env}.py
-EOF
-
-# create python pyspark script to test that packages work
-cat << EOF > tests/test-${env}.py
-# pyspark template
-import pyspark
-from pyspark.sql import SparkSession
-spark = (SparkSession.builder
-    .master("yarn")
-    .appName("test")
-    .getOrCreate()
-)
-sc = spark.sparkContext
-def testx(x):
-EOF
-
-if [[ $(cat *-requirements.txt | grep hdfs) != "" ]]; then
-
-cat << EOF >> tests/test-${env}.py
-    import subprocess
-    from hdfs.ext.kerberos import KerberosClient
-    subprocess.call(["kinit", "${wmuser}","-k","-t","/home/${wmuser}@campus.wm.edu/${wmuser}.keytab"])
-    host = "https://m1a.geo.sciclone.wm.edu"
-    port = 14000
-    client = KerberosClient("{}:{}".format(host, port))
-    hdfs_root = client.list("/")
-    if "geoquery" in hdfs_root:
-        print("HDFS connection success")
-    else:
-        raise Exception("Potential error with HDFS connection")
-EOF
-
-fi
-
-
-for i in $(cat *-requirements.txt); do
-if [[ $(echo ${i} | grep hdfs) == "" ]]; then
-cat << EOF >> tests/test-${env}.py
-    import ${i}
-EOF
-fi
-done
-
-cat << EOF >> tests/test-${env}.py
-    return x
-x = sc.parallelize([1,2,3,4]).mapPartitions(testx).collect()
-print(x)
-EOF

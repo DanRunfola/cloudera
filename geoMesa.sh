@@ -152,7 +152,9 @@ wget https://www.geoboundaries.org/data/geoBoundaries-3_0_0/AFG/ADM1/geoBoundari
 
 #Setup conda environment however you want on a node that can submit
 #Make sure to include python-hdfs
-#Create your submit.sh file for it
-cd ${conda_dir}/anaconda3/envs
-zip -r ${wd}/${env}.zip ${env}
-cd ${wd}
+#Create your gen.sh file for it
+
+#/home/dsmillerrunfol@campus.wm.edu/cloudera/gen.sh
+
+#cd into your environmental folder of anaconda and run the above gen script
+
