@@ -15,7 +15,7 @@ def testx(x):
     return(x)
 
 def geoLog(message):
-    filePath = "/home/dsmillerrunfol@campus.wm.edu/geoMesaLog.txt"
+    filePath = "home/dsmillerrunfol@campus.wm.edu/cloudera/geoMesaLog.txt"
     with open(filePath, 'a') as f:
         f.write(message + "\n")
 
