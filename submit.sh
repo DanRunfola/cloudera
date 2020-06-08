@@ -73,7 +73,7 @@ sc = spark.sparkContext
 def testx(x):
 EOF
 
-if [[ $(cat *-requirements.txt | grep hdfs) != "" ]]; then
+
 
 cat << EOF >> tests/test-${env}.py
     import subprocess
@@ -89,4 +89,3 @@ cat << EOF >> tests/test-${env}.py
         raise Exception("Potential error with HDFS connection")
 EOF
 
-fi
